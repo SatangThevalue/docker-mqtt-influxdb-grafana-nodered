@@ -1,0 +1,47 @@
+version: "3"
+services: 
+  influxdb:
+    image: influxdb
+    container_name: influxdb
+    ports:
+      - "8086:8086"
+    environment:
+      - INFLUXDB_DATA_ENGINE=tsm1
+      - INFLUXDB_REPORTING_DISABLED=false
+      - INFLUXDB_HTTP_AUTH_ENABLED=true
+    volumes:
+      - "influxdb-data:/var/lib/influxdb"
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    user: "0"
+    volumes:
+      - "grafana-data:/var/lib/grafana"
+  
+  node-red:
+    image: nodered/node-red
+    container_name: node-red
+    ports:
+      - "1880:1880"
+    volumes:
+      - "node-red-data:/data"
+  
+  mosquitto:
+    image: eclipse-mosquitto
+    container_name: mosquitto
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - "mosquitto-data:/mosquitto"
+
+volumes:
+  influxdb-data:
+  grafana-data:        
+  node-red-data:
+  mosquitto-data:
+
+
